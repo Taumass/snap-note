@@ -1,0 +1,35 @@
+{
+  "name": "snap-note",
+  "version": "1.0.0",
+  "description": "Monorepo pour Snap-Note (Next.js + AdonisJS)",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "lint": "eslint . --fix",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "snap-note",
+    "nextjs",
+    "adonisjs",
+    "monorepo"
+  ],
+  "author": "Taumas",
+  "license": "MIT",
+  "packageManager": "pnpm@10.4.1",
+  "engines": {
+    "node": ">=22.11.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "eslint": "^9.22.0",
+    "prettier": "^3.5.3"
+  }
+}
