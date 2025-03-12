@@ -2,24 +2,18 @@
 
 import * as React from "react";
 import {
-  AudioWaveform,
-  Blocks,
   Calendar,
   Home,
   Inbox,
   MessageCircleQuestion,
   Search,
-  Settings2,
-  Sparkles,
   Plus,
-  Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-import { NavRecent } from "@/components/nav-recent";
-import { NavMain } from "@/components/nav-main";
-import { NavSecondary } from "@/components/nav-secondary";
-import { TeamSwitcher } from "@/components/team-switcher";
+import { NavRecent } from "@/components/layout/nav-recent";
+import { NavMain } from "@/components/layout/nav-main";
+import { NavSecondary } from "@/components/layout/nav-secondary";
+import { TeamSwitcher } from "@/components/layout/team-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -100,7 +94,7 @@ export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar className={cn("border-r-0", className)} {...props}>
+    <Sidebar className={cn("border-r-0 bg-[#EDCB96]/5", className)} {...props}>
       <SidebarHeader>
         <TeamSwitcher user={data.user} />
         <NavMain items={data.navMain} />
