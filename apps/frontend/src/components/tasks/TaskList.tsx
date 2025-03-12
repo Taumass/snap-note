@@ -1,9 +1,8 @@
-import React from "react";
-import TaskItem from "./TaskItem";
+import React from 'react';
+import TaskItem from './TaskItem';
 
 interface Task {
   id: number;
-  key: number;
   taskName: string;
   date: string;
   isRepeating: boolean;
@@ -19,11 +18,11 @@ interface TaskListProps {
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete }) => {
   return (
-    <div>
+    <div className="flex flex-col w-full h-full">
       {tasks.map((task) => (
         <TaskItem
           id={task.id}
-          key={task.key}
+          key={task.id}
           taskName={task.taskName}
           date={task.date}
           isRepeating={task.isRepeating}

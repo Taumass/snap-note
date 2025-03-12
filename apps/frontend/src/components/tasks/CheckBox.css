@@ -1,0 +1,67 @@
+/* Masquer le checkbox natif */
+.checkbox-wrapper-57 input[type='checkbox'] {
+  visibility: hidden;
+  display: none;
+}
+
+.checkbox-wrapper-57 *,
+.checkbox-wrapper-57 ::after,
+.checkbox-wrapper-57 ::before {
+  box-sizing: border-box;
+}
+
+.checkbox-wrapper-57 .container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 25px;
+  user-select: none;
+}
+
+/* Checkbox personnalisé - État non coché */
+/* On utilise ici le beige (#EDCB96) */
+.checkbox-wrapper-57 .checkmark {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 1.3em;
+  width: 1.3em;
+  background: linear-gradient(145deg, #e6b877, #f4d7ac);
+  border-radius: 50px;
+  transition: all 0.7s;
+  --spread: 20px;
+}
+
+/* Lorsque la checkbox est cochée */
+/* On change le fond en darkPurple (#4D4861) et on ajoute un jeu d'ombres avec les couleurs du projet */
+.checkbox-wrapper-57 .container input:checked ~ .checkmark {
+  background: #4d4861;
+  box-shadow:
+    -10px -10px var(--spread) 0px #f7c4a5,
+    /* Peach */ 10px -10px var(--spread) 0px #9e7682,
+    /* Mauve */ 10px 10px var(--spread) 0px #605770,
+    /* Purple */ -10px 10px var(--spread) 0px #edcb96; /* Beige */
+}
+
+/* Création de l'indicateur (caché par défaut) */
+.checkbox-wrapper-57 .checkmark::after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Afficher l'indicateur lorsque cochée */
+.checkbox-wrapper-57 .container input:checked ~ .checkmark::after {
+  display: block;
+}
+
+/* Style de l'indicateur (checkmark) */
+.checkbox-wrapper-57 .container .checkmark::after {
+  left: 0.5em;
+  top: 0.34em;
+  width: 0.25em;
+  height: 0.5em;
+  border: solid #f0f0f0;
+  border-width: 0 0.15em 0.15em 0;
+  transform: rotate(45deg);
+}

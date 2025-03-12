@@ -1,38 +1,35 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import TaskList from "@/components/tasks/TaskList";
+import { useState } from 'react';
+import TaskList from '@/components/tasks/TaskList';
 
 export default function Home() {
   const [tasks, setTasks] = useState([
     {
       id: 1,
-      key: 1,
-      taskName: "Faire les courses",
-      date: "2025-03-12",
+      taskName: 'Faire les courses',
+      date: '2025-03-12',
       isRepeating: false,
-      repeatFrequency: "",
-      emoji: "🛒",
+      repeatFrequency: '',
+      emoji: '🛒',
       isCompleted: false,
     },
     {
       id: 2,
-      key: 2,
-      taskName: "Coder un projet React",
-      date: "2025-03-13",
+      taskName: 'Coder un projet React',
+      date: '2025-03-13',
       isRepeating: true,
-      repeatFrequency: "weekly",
-      emoji: "💻",
+      repeatFrequency: 'Weekly',
+      emoji: '💻',
       isCompleted: false,
     },
     {
       id: 3,
-      key: 3,
-      taskName: "Aller à la salle de sport",
-      date: "2025-03-14",
+      taskName: 'Aller à la salle de sport',
+      date: '2025-03-14',
       isRepeating: true,
-      repeatFrequency: "daily",
-      emoji: "🏋️",
+      repeatFrequency: 'Daily',
+      emoji: '🏋️',
       isCompleted: true,
     },
   ]);
@@ -46,9 +43,25 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-2xl font-bold mb-6">Mes Tâches</h1>
-      <TaskList tasks={tasks} onToggleComplete={onToggleComplete} />
-    </div>
+    <main className="px-8 w-full flex-1 transition-all duration-200">
+      <div className="w-full h-full py-8">
+        <div className="flex flex-col flex-grow h-full w-full">
+          <div
+            className="mb-8 pl-6 border-l-4"
+            style={{ borderColor: '#605770' }}>
+            <h1 className="text-3xl font-bold text-gray-800">
+              My Tasks
+              <span className="ml-2" style={{ color: '#605770' }}>
+                ✓
+              </span>
+            </h1>
+            <p className="text-gray-500 mt-1">
+              {tasks.filter((t) => !t.isCompleted).length} tasks remaining
+            </p>
+          </div>
+          <TaskList tasks={tasks} onToggleComplete={onToggleComplete} />
+        </div>
+      </div>
+    </main>
   );
 }
