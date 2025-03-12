@@ -13,7 +13,7 @@ interface Task {
 
 interface TaskListProps {
   tasks: Task[];
-  onToggleComplete: (taskId: number, isCompleted: boolean) => void;
+  onToggleComplete: (taskId: number) => void;
 }
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete }) => {
@@ -29,7 +29,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete }) => {
           repeatFrequency={task.repeatFrequency}
           emoji={task.emoji}
           isCompleted={task.isCompleted}
-          onToggleComplete={() => onToggleComplete(task.id, task.isCompleted)}
+          onToggleComplete={() => onToggleComplete(task.id)}
         />
       ))}
     </div>

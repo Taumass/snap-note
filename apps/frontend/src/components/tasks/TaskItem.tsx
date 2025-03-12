@@ -14,12 +14,12 @@ type TaskItemProps = {
 
 const TaskItem = ({
   id,
-  taskName = 'Nom de la tâche',
-  date = '12 mars 2025',
-  isRepeating = true,
-  repeatFrequency = 'hebdomadaire',
-  emoji = '🚀',
-  isCompleted = false,
+  taskName = 'New Task',
+  date,
+  isRepeating,
+  repeatFrequency,
+  emoji = '📋',
+  isCompleted,
   onToggleComplete,
 }: TaskItemProps) => {
   const colors = {
@@ -40,7 +40,11 @@ const TaskItem = ({
         border: `2px solid ${colors.beige}`,
       }}>
       {/* CheckBox avec animation */}
-      <CheckBox key={id} />
+      <CheckBox
+        key={id}
+        onToggleComplete={onToggleComplete}
+        isCompleted={isCompleted}
+      />
 
       {/* Contenu principal */}
       <div className="flex-grow px-4">

@@ -1,46 +1,21 @@
 'use client';
 
-import { useState } from 'react';
 import TaskList from '@/components/tasks/TaskList';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+import { toggleTask } from '@/store/taskSlice';
 
 export default function Home() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      taskName: 'Faire les courses',
-      date: '2025-03-12',
-      isRepeating: false,
-      repeatFrequency: '',
-      emoji: '🛒',
-      isCompleted: false,
-    },
-    {
-      id: 2,
-      taskName: 'Coder un projet React',
-      date: '2025-03-13',
-      isRepeating: true,
-      repeatFrequency: 'Weekly',
-      emoji: '💻',
-      isCompleted: false,
-    },
-    {
-      id: 3,
-      taskName: 'Aller à la salle de sport',
-      date: '2025-03-14',
-      isRepeating: true,
-      repeatFrequency: 'Daily',
-      emoji: '🏋️',
-      isCompleted: true,
-    },
-  ]);
+  const dispatch = useDispatch();
 
-  const onToggleComplete = (taskId: number, completed: boolean) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, isCompleted: completed } : task
-      )
-    );
+  const handleToggleComplete = (taskId: number) => {
+    dispatch(toggleTask(taskId)); // Dispatcher l'action Redux
   };
+  const tasks = useSelector((state: RootState) =>
+    [...state.tasks.tasks].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    )
+  );
 
   return (
     <main className="px-8 w-full flex-1 transition-all duration-200">
@@ -59,7 +34,7 @@ export default function Home() {
               {tasks.filter((t) => !t.isCompleted).length} tasks remaining
             </p>
           </div>
-          <TaskList tasks={tasks} onToggleComplete={onToggleComplete} />
+          <TaskList tasks={tasks} onToggleComplete={handleToggleComplete} />
         </div>
       </div>
     </main>

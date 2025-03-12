@@ -21,7 +21,17 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 
-// This is sample data.
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+import { title } from 'process';
+
+interface Task {
+  id: number;
+  taskName: string;
+  date: string;
+  emoji: string;
+}
+
 const data = {
   user: {
     name: 'Thomas S.',
@@ -65,34 +75,28 @@ const data = {
       icon: MessageCircleQuestion,
     },
   ],
-  recentTasks: [
-    {
-      title: 'Finish client presentation',
-      date: '2h',
-      emoji: '📊',
-    },
-    {
-      title: 'Design team meeting',
-      date: '1d',
-      emoji: '👥',
-    },
-    {
-      title: 'Update documentation',
-      date: '2d',
-      emoji: '📝',
-    },
-    {
-      title: 'Review code PR-128',
-      date: '3d',
-      emoji: '💻',
-    },
-  ],
+  recentTasks: [] as { title: string; date: string; emoji: string }[],
 };
 
 export function AppSidebar({
   className,
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const tasks: Task[] = useSelector((state: RootState) =>
+    [...state.tasks.tasks].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    )
+  );
+  const recentTasks = tasks.map((task) => {
+    return {
+      title: task.taskName,
+      date: task.date,
+      emoji: task.emoji,
+    };
+  });
+
+  data.recentTasks = recentTasks;
+
   return (
     <Sidebar className={cn('border-r-0 bg-[#EDCB96]/5', className)} {...props}>
       <SidebarHeader>

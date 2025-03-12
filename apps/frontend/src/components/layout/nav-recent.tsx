@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import * as React from 'react';
 
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 
 interface NavRecentProps {
   items: {
@@ -34,9 +34,9 @@ export function NavRecent({ items }: NavRecentProps) {
                   {item.title}
                 </span>
               </div>
-              <span className="text-xs font-medium bg-[#F7C4A5]/20 text-[#605770] px-2 py-0.5 rounded-full">
+              {/* <span className="text-xs font-medium bg-[#F7C4A5]/20 text-[#605770] px-2 py-0.5 rounded-full">
                 {item.date}
-              </span>
+              </span> */}
             </a>
           </SidebarMenuButton>
         </SidebarMenuItem>

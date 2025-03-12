@@ -4,6 +4,8 @@ import './globals.css';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
+import ReduxProvider from '@/providers/ReduxProvider';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -28,12 +30,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SidebarProvider>
-          <div className="flex h-screen w-full">
-            <AppSidebar className="flex-shrink-0" />
-            <main className="w-full h-full overflow-auto">{children}</main>
-          </div>
-        </SidebarProvider>
+        <ReduxProvider>
+          <SidebarProvider>
+            <div className="flex h-screen w-full">
+              <AppSidebar className="flex-shrink-0" />
+              <main className="w-full h-full overflow-auto">{children}</main>
+            </div>
+          </SidebarProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
