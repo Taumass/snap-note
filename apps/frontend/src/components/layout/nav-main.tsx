@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { type LucideIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { type LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 
 export function NavMain({
   items,
@@ -30,8 +30,8 @@ export function NavMain({
             className={item.className}>
             <a
               href={item.url}
-              className={cn("flex items-center gap-2", item.className)}>
-              <item.icon className={cn(item.className ? "h-4 w-4" : "")} />
+              className={cn('flex items-center gap-2', item.className)}>
+              <item.icon className={cn(item.className ? 'h-4 w-4' : '')} />
               <span>{item.title}</span>
             </a>
           </SidebarMenuButton>

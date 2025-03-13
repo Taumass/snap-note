@@ -1,11 +1,13 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '@/store/store';
 
 type Task = {
   id: number;
   taskName: string;
   date: string;
   isRepeating: boolean;
-  repeatFrequency: string;
+  repeatFrequency: string | null;
+  repeatDays: number[] | null;
   emoji: string;
   isCompleted: boolean;
 };
@@ -18,33 +20,44 @@ const initialState: TaskState = {
   tasks: [
     {
       id: 1,
-      taskName: 'Faire les courses',
+      taskName: 'Do the groceries',
       date: '2025-03-12',
       isRepeating: false,
-      repeatFrequency: '',
+      repeatFrequency: null,
+      repeatDays: null,
       emoji: '🛒',
       isCompleted: false,
     },
     {
       id: 2,
-      taskName: 'Coder un projet React',
+      taskName: 'Code a React project',
       date: '2025-03-13',
       isRepeating: true,
       repeatFrequency: 'Weekly',
+      repeatDays: [1, 3, 5],
       emoji: '💻',
       isCompleted: false,
     },
     {
       id: 3,
-      taskName: 'Aller à la salle de sport',
+      taskName: 'Go to the gym',
       date: '2025-03-14',
       isRepeating: true,
       repeatFrequency: 'Daily',
+      repeatDays: null,
       emoji: '🏋️',
       isCompleted: true,
     },
   ],
 };
+
+const selectRawTasks = (state: RootState) => state.tasks.tasks;
+
+export const selectSortedTasks = createSelector([selectRawTasks], (tasks) =>
+  tasks
+    .slice()
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+);
 
 const taskSlice = createSlice({
   name: 'tasks',
@@ -59,8 +72,17 @@ const taskSlice = createSlice({
         task.isCompleted = !task.isCompleted;
       }
     },
+    updateRepeatDays: (
+      state,
+      action: PayloadAction<{ taskId: number; repeatDays: number[] | null }>
+    ) => {
+      const task = state.tasks.find((t) => t.id === action.payload.taskId);
+      if (task) {
+        task.repeatDays = action.payload.repeatDays;
+      }
+    },
   },
 });
 
-export const { addTask, toggleTask } = taskSlice.actions;
+export const { addTask, toggleTask, updateRepeatDays } = taskSlice.actions;
 export default taskSlice.reducer;

@@ -1,21 +1,20 @@
 'use client';
 
+// ** COMPONENTS
 import TaskList from '@/components/tasks/TaskList';
+import CreateTask from '@/components/tasks/CreateTask';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
 import { toggleTask } from '@/store/taskSlice';
+import { selectSortedTasks } from '@/store/taskSlice';
 
 export default function Home() {
   const dispatch = useDispatch();
 
   const handleToggleComplete = (taskId: number) => {
-    dispatch(toggleTask(taskId)); // Dispatcher l'action Redux
+    dispatch(toggleTask(taskId));
   };
-  const tasks = useSelector((state: RootState) =>
-    [...state.tasks.tasks].sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-    )
-  );
+  const tasks = useSelector(selectSortedTasks);
 
   return (
     <main className="px-8 w-full flex-1 transition-all duration-200">
@@ -35,6 +34,7 @@ export default function Home() {
             </p>
           </div>
           <TaskList tasks={tasks} onToggleComplete={handleToggleComplete} />
+          <CreateTask />
         </div>
       </div>
     </main>

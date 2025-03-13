@@ -36,7 +36,7 @@ const data = {
   user: {
     name: 'Thomas S.',
     email: 'thomas@example.com',
-    avatar: undefined, // Avatar will use initials by default
+    avatar: undefined,
   },
   navMain: [
     {
@@ -62,7 +62,7 @@ const data = {
     },
     {
       title: 'Create new task',
-      url: '#',
+      url: '/create-task',
       icon: Plus,
       className:
         'bg-[#EDCB96] hover:bg-[#F7C4A5] text-[#4D4861] rounded-md px-4 py-2 mt-1 shadow-sm transition-colors w-full justify-center font-medium',
@@ -104,7 +104,7 @@ export function AppSidebar({
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent className="flex flex-col h-full">
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto ml-2">
           <NavRecent items={data.recentTasks} />
         </div>
         <NavSecondary items={data.navSecondary} className="mt-auto" />
