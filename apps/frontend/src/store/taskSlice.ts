@@ -1,16 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/store/store';
-
-type Task = {
-  id: number;
-  taskName: string;
-  date: string;
-  isRepeating: boolean;
-  repeatFrequency: string | null;
-  repeatDays: number[] | null;
-  emoji: string;
-  isCompleted: boolean;
-};
+import type { Task } from '@snap-note/types';
 
 type TaskState = {
   tasks: Task[];

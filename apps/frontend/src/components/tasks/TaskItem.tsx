@@ -1,24 +1,19 @@
 import React from 'react';
 import CheckBox from './CheckBox';
 
-type TaskItemProps = {
-  id: number;
-  taskName: string;
-  date: string;
-  isRepeating: boolean;
-  repeatFrequency: string;
-  emoji: string;
-  isCompleted: boolean;
+import type { Task } from '@snap-note/types';
+
+type TaskItemProps = Omit<Task, 'repeatDays'> & {
   onToggleComplete: () => void;
 };
 
 const TaskItem = ({
   id,
-  taskName = 'New Task',
+  taskName = 'Untitled Task',
   date,
   isRepeating,
   repeatFrequency,
-  emoji = '📋',
+  emoji,
   isCompleted,
   onToggleComplete,
 }: TaskItemProps) => {
@@ -39,14 +34,12 @@ const TaskItem = ({
         backgroundColor: 'white',
         border: `2px solid ${colors.beige}`,
       }}>
-      {/* CheckBox avec animation */}
       <CheckBox
         key={id}
         onToggleComplete={onToggleComplete}
         isCompleted={isCompleted}
       />
 
-      {/* Contenu principal */}
       <div className="flex-grow px-4">
         <div
           className={`font-semibold text-2xl transition-colors ${
@@ -95,7 +88,6 @@ const TaskItem = ({
         </div>
       </div>
 
-      {/* Emoji avec un effet doux */}
       <div
         className="flex-shrink-0 ml-6 text-4xl p-4 rounded-full shadow-md bg-[#9E7682]/20 border border-[#9E7682]/10 transition-all hover:scale-110"
         style={{

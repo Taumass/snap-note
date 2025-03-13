@@ -138,6 +138,9 @@ importers:
       '@reduxjs/toolkit':
         specifier: ^2.6.1
         version: 2.6.1(react-redux@9.2.0(@types/react@19.0.10)(react@19.0.0)(redux@5.0.1))(react@19.0.0)
+      '@snap-note/types':
+        specifier: workspace:^
+        version: link:../../packages/types
       '@types/recharts':
         specifier: ^1.8.29
         version: 1.8.29
@@ -213,6 +216,12 @@ importers:
         version: 4.0.13
       typescript:
         specifier: ^5
+        version: 5.8.2
+
+  packages/types:
+    devDependencies:
+      typescript:
+        specifier: ^5.8.2
         version: 5.8.2
 
 packages:

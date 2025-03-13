@@ -1,15 +1,10 @@
 import React from 'react';
 import TaskItem from './TaskItem';
+import type { Task } from '@snap-note/types';
 
-interface Task {
-  id: number;
-  taskName: string;
-  date: string;
-  isRepeating: boolean;
-  repeatFrequency: string;
-  emoji: string;
-  isCompleted: boolean;
-}
+type TaskItemProps = Task & {
+  onToggleComplete: () => void;
+};
 
 interface TaskListProps {
   tasks: Task[];

@@ -1,5 +1,7 @@
 'use client';
 
+import type { Task } from '@snap-note/types';
+
 // ** COMPONENTS
 import TaskList from '@/components/tasks/TaskList';
 import CreateTask from '@/components/tasks/CreateTask';
@@ -14,7 +16,7 @@ export default function Home() {
   const handleToggleComplete = (taskId: number) => {
     dispatch(toggleTask(taskId));
   };
-  const tasks = useSelector(selectSortedTasks);
+  const tasks: Task[] = useSelector(selectSortedTasks);
 
   return (
     <main className="px-8 w-full flex-1 transition-all duration-200">
