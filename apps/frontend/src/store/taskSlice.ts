@@ -1,9 +1,14 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { parseISO } from 'date-fns';
 import { RootState } from '@/store/store';
 import type { Task } from '@snap-note/types';
 
+interface TaskData extends Omit<Task, 'date'> {
+  date: string;
+}
+
 type TaskState = {
-  tasks: Task[];
+  tasks: TaskData[];
 };
 
 const initialState: TaskState = {
@@ -45,15 +50,18 @@ const selectRawTasks = (state: RootState) => state.tasks.tasks;
 
 export const selectSortedTasks = createSelector([selectRawTasks], (tasks) =>
   tasks
-    .slice()
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .map((task) => ({
+      ...task,
+      date: new Date(task.date),
+    }))
+    .sort((a, b) => a.date.getTime() - b.date.getTime())
 );
 
 const taskSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    addTask: (state, action: PayloadAction<Task>) => {
+    addTask: (state, action: PayloadAction<TaskData>) => {
       state.tasks.push(action.payload);
     },
     toggleTask: (state, action: PayloadAction<number>) => {

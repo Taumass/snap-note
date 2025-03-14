@@ -1,7 +1,7 @@
 export interface Task {
   id: number;
   taskName: string;
-  date: string;
+  date: Date;
   isRepeating: boolean;
   repeatFrequency: string | null;
   repeatDays: number[] | null;

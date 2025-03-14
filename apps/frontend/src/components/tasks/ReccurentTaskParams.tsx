@@ -22,13 +22,13 @@ export default function RecurrentTaskParams({
   setRepeatDays,
 }: RecurrentTaskParamsProps) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 bg-[#EDCB96]/20 p-4 rounded-lg">
       {/* Sélection de la récurrence */}
       <Select onValueChange={setRecurrence} value={recurrence}>
-        <SelectTrigger className="w-[200px]">
+        <SelectTrigger className="w-[200px] bg-[#F7C4A5]/10 text-[#4D4861] border-[#9E7682]">
           <SelectValue placeholder="Select recurrence" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-[#F7C4A5]/80 text-[#4D4861]">
           <SelectItem value="daily">Daily</SelectItem>
           <SelectItem value="weekly">Weekly</SelectItem>
           <SelectItem value="biweekly">Biweekly</SelectItem>
@@ -37,8 +37,7 @@ export default function RecurrentTaskParams({
         </SelectContent>
       </Select>
 
-      {/* Sélection des jours (uniquement si Weekly est choisi) */}
-      {recurrence === 'weekly' && (
+      {(recurrence === 'weekly' || recurrence === 'biweekly') && (
         <div className="mt-4">
           <ToggleGroup
             type="multiple"
@@ -52,12 +51,12 @@ export default function RecurrentTaskParams({
                 <ToggleGroupItem
                   key={index}
                   value={index.toString()}
-                  className={`w-12 h-12 text-sm font-medium rounded-lg transition-all 
-                    ${
-                      repeatDays.has(index)
-                        ? 'bg-blue-600 text-white border-2 border-blue-800 shadow-lg scale-105'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}>
+                  className={`w-12 h-12 text-sm font-medium rounded-lg transition-all
+              ${
+                repeatDays.has(index)
+                  ? 'bg-[#000]/20 text-white border-2 border-[#605770]/20 shadow-lg scale-105'
+                  : 'bg-[#fff]/70 text-[#4D4861] hover:bg-[#EDCB96]-200'
+              }`}>
                   {day}
                 </ToggleGroupItem>
               )

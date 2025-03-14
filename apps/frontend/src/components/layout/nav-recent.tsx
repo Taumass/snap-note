@@ -10,6 +10,7 @@ import {
 
 interface NavRecentProps {
   items: {
+    id: number;
     title: string;
     date: string;
     emoji: string;
@@ -23,7 +24,7 @@ export function NavRecent({ items }: NavRecentProps) {
         Recent tasks
       </div>
       {items.map((item) => (
-        <SidebarMenuItem key={item.title}>
+        <SidebarMenuItem key={item.id}>
           <SidebarMenuButton asChild>
             <a
               href="#"

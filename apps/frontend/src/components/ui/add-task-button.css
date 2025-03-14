@@ -1,0 +1,48 @@
+.button-26 {
+  background: #edcb96; /* Beige doux */
+  border: 2px solid #9e7682; /* Contraste subtil */
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 10px;
+  outline: none;
+  padding: 0;
+  box-shadow:
+    0 2px 8px rgba(77, 72, 97, 0.3),
+    4px 10px 15px rgba(77, 72, 97, 0.2); /* Ombre naturelle */
+  transition: all 0.2s ease-in-out;
+}
+
+.button-26:hover {
+  background: #f7c4a5; /* Couleur plus lumineuse */
+  border-color: #605770;
+}
+
+.button-26__content {
+  padding: 20px 36px;
+  border-radius: 8px;
+  box-shadow:
+    inset 0 -4px #9e7682,
+    /* Remplacement du gris par un rose foncé */ 0 -2px #f7c4a5; /* Légère lumière pêche */
+  transition: all 0.2s ease-in-out;
+}
+
+.button-26__text {
+  color: #4d4861; /* Couleur du texte */
+  font-weight: bold;
+  display: block;
+  transform: translate3d(0, -4px, 0);
+  transition: all 0.2s ease-in-out;
+}
+
+.button-26:active {
+  box-shadow: none;
+  transform: translateY(2px);
+}
+
+.button-26:active .button-26__content {
+  box-shadow: none;
+}
+
+.button-26:active .button-26__text {
+  transform: translate3d(0, 0, 0);
+}
