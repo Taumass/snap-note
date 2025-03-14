@@ -22,13 +22,13 @@ export default function RecurrentTaskParams({
   setRepeatDays,
 }: RecurrentTaskParamsProps) {
   return (
-    <div className="space-y-4 bg-[#EDCB96]/20 p-4 rounded-lg">
+    <div className="space-y-4 bg-[#EDCB96]/10 p-4 rounded-lg">
       {/* Sélection de la récurrence */}
       <Select onValueChange={setRecurrence} value={recurrence}>
-        <SelectTrigger className="w-[200px] bg-[#F7C4A5]/10 text-[#4D4861] border-[#9E7682]">
+        <SelectTrigger className="w-[200px] bg-[#F7C4A5]/10 text-[#4D4861] border-[#9a888e]">
           <SelectValue placeholder="Select recurrence" />
         </SelectTrigger>
-        <SelectContent className="bg-[#F7C4A5]/80 text-[#4D4861]">
+        <SelectContent className="bg-[#f5e7de] text-[#4D4861]">
           <SelectItem value="daily">Daily</SelectItem>
           <SelectItem value="weekly">Weekly</SelectItem>
           <SelectItem value="biweekly">Biweekly</SelectItem>
@@ -51,12 +51,12 @@ export default function RecurrentTaskParams({
                 <ToggleGroupItem
                   key={index}
                   value={index.toString()}
-                  className={`w-12 h-12 text-sm font-medium rounded-lg transition-all
-              ${
-                repeatDays.has(index)
-                  ? 'bg-[#000]/20 text-white border-2 border-[#605770]/20 shadow-lg scale-105'
-                  : 'bg-[#fff]/70 text-[#4D4861] hover:bg-[#EDCB96]-200'
-              }`}>
+                  className={`w-12 h-12 text-sm font-medium rounded-lg border-2 transition-all
+    ${
+      repeatDays.has(index)
+        ? ' !text-[#3a3535] !bg-[#f9e0b8] border-[#605770]/20 shadow-lg scale-100 font-bold'
+        : 'bg-[#faf4ea] text-[#27262b] border-[#605770]/20 hover:bg-[#f9e0b8] scale-80'
+    }`}>
                   {day}
                 </ToggleGroupItem>
               )

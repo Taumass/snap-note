@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CheckBox from './CheckBox';
 import FormatedDate from '../ui/formated-date';
+import useSound from 'use-sound';
 
 import type { Task } from '@snap-note/types';
 
@@ -23,6 +24,10 @@ const TaskItem = ({
   const [isAppearing, setIsAppearing] = useState(false);
   const [transitionDuration, setTransitionDuration] = useState('1s');
 
+  const [play] = useSound('/sounds/task-completed.mp3', {
+    volume: 0.5,
+  });
+
   useEffect(() => {
     setTimeout(() => {
       setIsAppearing(true);
@@ -34,7 +39,8 @@ const TaskItem = ({
 
   const handleCheck = () => {
     if (!isCompleted) {
-      setTransitionDuration('3s');
+      play();
+      setTransitionDuration('2.5s');
       setIsFadingOut(true);
       setIsInAnimation(true);
       onToggleComplete();

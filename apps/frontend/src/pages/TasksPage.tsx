@@ -26,7 +26,7 @@ export default function Home() {
 
     setTimeout(() => {
       dispatch(deleteTask(taskId));
-    }, 3100);
+    }, 2600);
   };
   const tasks: Task[] = useSelector(selectSortedTasks);
 
