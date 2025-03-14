@@ -13,7 +13,6 @@ export function NavMain({
   items,
 }: {
   items: {
-    id: number;
     title: string;
     url?: string;
     icon: LucideIcon;
@@ -25,7 +24,7 @@ export function NavMain({
   return (
     <SidebarMenu>
       {items.map((item) => (
-        <SidebarMenuItem key={item.id}>
+        <SidebarMenuItem key={item.title}>
           {item.onClick ? (
             <SidebarMenuButton
               onClick={item.onClick}

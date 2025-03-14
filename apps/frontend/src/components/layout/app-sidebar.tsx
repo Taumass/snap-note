@@ -23,8 +23,8 @@ import {
 
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSortedTasks } from '@/store/taskSlice';
-import { openDrawer } from '@/store/addTaskDrawerSlice';
+import { selectSortedTasks } from '@/slices/taskSlice';
+import { openDrawer } from '@/slices/addTaskDrawerSlice';
 import { Task } from '@snap-note/types';
 
 export function AppSidebar({
@@ -56,6 +56,7 @@ export function AppSidebar({
         icon: Calendar,
       },
       {
+        id: 4,
         title: 'Inbox',
         url: '#',
         icon: Inbox,
@@ -86,6 +87,7 @@ export function AppSidebar({
   const recentTasks = useMemo(
     () =>
       tasks.map((task) => ({
+        id: task.id,
         title: task.taskName,
         date: task.date.toISOString().split('T')[0],
         emoji: task.emoji,

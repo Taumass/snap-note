@@ -20,14 +20,17 @@ import EmojiPicker from '@/components/ui/emoji-picker';
 import ReccurentTaskParams from './ReccurentTaskParams';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
-import { addTask, selectSortedTasks } from '@/store/taskSlice';
-import { closeDrawer, setDrawerState } from '@/store/addTaskDrawerSlice';
+import { addTask, selectSortedTasks } from '@/slices/taskSlice';
+import { closeDrawer, setDrawerState } from '@/slices/addTaskDrawerSlice';
+import { addNotification } from '@/slices/notificationsSlice';
 import { set } from 'date-fns';
 
 export default function DrawerDemo() {
   const dispatch = useDispatch();
   const tasks = useSelector(selectSortedTasks);
   const isOpen = useSelector((state: RootState) => state.addTaskDrawer.isOpen);
+
+  const [titleError, setTitleError] = React.useState(false);
 
   const [date, setDate] = React.useState<Date>(new Date());
   const [title, setTitle] = React.useState('');
@@ -36,28 +39,25 @@ export default function DrawerDemo() {
   const [recurrence, setRecurrence] = React.useState<string>('');
   const [repeatDays, setRepeatDays] = React.useState<Set<number>>(new Set());
 
-  const handleOpen = () => {
-    setEmoji('📝');
-    setTitle('');
-    setDate(new Date());
-    setIsRepeating(false);
-  };
-
   const handleSubmit = () => {
     if (!title.trim()) {
-      alert('Task name is required!');
+      setTitleError(true);
+      dispatch(addNotification({ message: 'Title is missing', type: 'error' }));
       return;
     }
     if (!date) {
-      alert('Please select a date!');
+      dispatch(
+        addNotification({ message: 'Please select a date', type: 'error' })
+      );
       return;
     }
     if (isRepeating && !recurrence) {
-      alert('Please select a recurrence type!');
-      return;
-    }
-    if (isRepeating && recurrence === 'weekly' && repeatDays.size === 0) {
-      alert('Please select at least one day for weekly recurrence!');
+      dispatch(
+        addNotification({
+          message: 'Please select a recurrence type!',
+          type: 'error',
+        })
+      );
       return;
     }
 
@@ -77,6 +77,13 @@ export default function DrawerDemo() {
 
     dispatch(addTask(newTask));
 
+    dispatch(
+      addNotification({
+        message: `Task "${title}" created successfully!`,
+        type: 'success',
+      })
+    );
+
     dispatch(closeDrawer());
   };
   return (
@@ -90,6 +97,7 @@ export default function DrawerDemo() {
         setIsRepeating(false);
         setRecurrence('');
         setRepeatDays(new Set());
+        setTitleError(false);
       }}>
       <DrawerContent className="bg-[#FFFFFC] text-[#4D4861] rounded-t-2xl shadow-lg">
         <div className="flex flex-col items-center justify-center mx-auto w-full max-w-sm text-center">
@@ -112,9 +120,14 @@ export default function DrawerDemo() {
                 <Input
                   id="title"
                   value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                    if (titleError) setTitleError(false); // Supprime l'erreur si l'utilisateur tape
+                  }}
                   placeholder="Enter title"
-                  className="flex-1 bg-[#FFFFFC] border border-[#9E7682] text-[#4D4861] focus:ring-2 focus:ring-[#9E7682] rounded-md"
+                  className={`flex-1 bg-[#FFFFFC] border ${
+                    titleError ? 'border-red-500' : 'border-[#9E7682]'
+                  } text-[#4D4861] focus:ring-2 focus:ring-[#9E7682] rounded-md`}
                 />
                 <EmojiPicker emoji={emoji} setEmoji={setEmoji} />
               </div>

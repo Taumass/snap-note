@@ -1,7 +1,8 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { parseISO } from 'date-fns';
 import { RootState } from '@/store/store';
 import type { Task } from '@snap-note/types';
+
+import { addNotification } from './notificationsSlice';
 
 interface TaskData extends Omit<Task, 'date'> {
   date: string;
@@ -41,7 +42,7 @@ const initialState: TaskState = {
       repeatFrequency: 'Daily',
       repeatDays: null,
       emoji: '🏋️',
-      isCompleted: true,
+      isCompleted: false,
     },
   ],
 };
@@ -70,6 +71,9 @@ const taskSlice = createSlice({
         task.isCompleted = !task.isCompleted;
       }
     },
+    deleteTask: (state, action: PayloadAction<number>) => {
+      state.tasks = state.tasks.filter((t) => t.id !== action.payload);
+    },
     updateRepeatDays: (
       state,
       action: PayloadAction<{ taskId: number; repeatDays: number[] | null }>
@@ -82,5 +86,6 @@ const taskSlice = createSlice({
   },
 });
 
-export const { addTask, toggleTask, updateRepeatDays } = taskSlice.actions;
+export const { addTask, toggleTask, deleteTask, updateRepeatDays } =
+  taskSlice.actions;
 export default taskSlice.reducer;

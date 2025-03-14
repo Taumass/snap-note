@@ -1,7 +1,7 @@
 import React from 'react';
 import './add-task-button.css';
 import { useDispatch } from 'react-redux';
-import { openDrawer } from '@/store/addTaskDrawerSlice';
+import { openDrawer } from '@/slices/addTaskDrawerSlice';
 
 const AddTaskButton = () => {
   const dispatch = useDispatch();

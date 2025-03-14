@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CheckBox from './CheckBox';
 import FormatedDate from '../ui/formated-date';
 
@@ -18,41 +18,69 @@ const TaskItem = ({
   isCompleted,
   onToggleComplete,
 }: TaskItemProps) => {
-  const colors = {
-    beige: '#EDCB96',
-    peach: '#F7C4A5',
-    mauve: '#9E7682',
-    purple: '#605770',
-    darkPurple: '#4D4861',
+  const [isFadingOut, setIsFadingOut] = useState(false);
+  const [isInAnimation, setIsInAnimation] = useState(true);
+  const [isAppearing, setIsAppearing] = useState(false);
+  const [transitionDuration, setTransitionDuration] = useState('1s');
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsAppearing(true);
+    }, 10);
+    setTimeout(() => {
+      setIsInAnimation(false);
+    }, 1000);
+  }, []);
+
+  const handleCheck = () => {
+    if (!isCompleted) {
+      setTransitionDuration('3s');
+      setIsFadingOut(true);
+      setIsInAnimation(true);
+      onToggleComplete();
+    } else {
+      onToggleComplete();
+    }
   };
 
   return (
     <div
-      className={`w-full rounded-xl p-6 mb-4 flex items-center justify-between transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl hover:scale-[1.02] ${
-        isCompleted ? 'opacity-50' : ''
-      }`}
+      className={`w-full rounded-xl flex items-center justify-between transition-all ease-in-out shadow-lg hover:shadow-xl
+    ${isFadingOut ? 'opacity-0 scale-50 max-h-0 -mb-1 py-0 px-0 overflow-hidden' : 'max-h-[200px] mb-4 p-6'}
+    ${isAppearing && !isFadingOut ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}
+    ${!isInAnimation ? 'hover:scale-[1.02]' : ''}`}
       style={{
         backgroundColor: 'white',
-        border: `2px solid ${colors.beige}`,
+        border: `2px solid #EDCB96`,
+        transitionDuration,
       }}>
       <CheckBox
         key={id}
-        onToggleComplete={onToggleComplete}
+        onToggleComplete={handleCheck}
         isCompleted={isCompleted}
       />
 
-      <div className="flex-grow px-4">
+      <div
+        className={`flex-grow transition-all ${isFadingOut ? 'px-0' : 'px-4'}`}
+        style={{ transitionDuration }}>
         <div
           className={`font-semibold text-2xl transition-colors ${
             isCompleted ? 'line-through text-gray-500' : 'text-gray-900'
           }`}
-          style={{ color: isCompleted ? colors.mauve : colors.darkPurple }}>
+          style={{ color: isCompleted ? '#9E7682' : '#4D4861' }}>
           {taskName}
         </div>
 
-        <div className="flex items-center mt-3 text-sm space-x-6">
-          {/* Date */}
-          <div className="flex items-center px-4 py-2 rounded-full bg-[#F7C4A5]/20 shadow-sm border border-[#F7C4A5]/40">
+        <div
+          className={`flex items-center text-sm space-x-6 transition-all ${
+            isFadingOut ? '-mt-3' : 'mt-3'
+          }`}
+          style={{ transitionDuration }}>
+          <div
+            className={`flex items-center rounded-full bg-[#F7C4A5]/20 shadow-sm border border-[#F7C4A5]/40 transition-all ${
+              isFadingOut ? 'px-0 py-0' : 'px-4 py-2'
+            }`}
+            style={{ transitionDuration }}>
             <svg
               className="w-5 h-5 mr-2 text-gray-700"
               fill="none"
@@ -70,9 +98,12 @@ const TaskItem = ({
             </span>
           </div>
 
-          {/* Répétition */}
           {isRepeating && (
-            <div className="flex items-center px-4 py-2 rounded-full bg-[#EDCB96]/30 shadow-sm border border-[#EDCB96]/40">
+            <div
+              className={`flex items-center rounded-full bg-[#EDCB96]/30 shadow-sm border border-[#EDCB96]/40 transition-all ${
+                isFadingOut ? 'px-0 py-0' : 'px-4 py-2'
+              }`}
+              style={{ transitionDuration }}>
               <svg
                 className="w-5 h-5 mr-2 text-gray-700"
                 fill="none"
@@ -92,10 +123,13 @@ const TaskItem = ({
       </div>
 
       <div
-        className="flex-shrink-0 ml-6 text-4xl p-4 rounded-full shadow-md bg-[#9E7682]/20 border border-[#9E7682]/10 transition-all hover:scale-110"
+        className={`flex-shrink-0 text-4xl rounded-full shadow-md bg-[#9E7682]/20 border border-[#9E7682]/10 transition-all hover:scale-110 ${
+          isFadingOut ? 'ml-0 p-0' : 'ml-6 p-4'
+        }`}
         style={{
           boxShadow:
             'inset 2px 2px 5px rgba(255,255,255,0.4), inset -2px -2px 5px rgba(0,0,0,0.1)',
+          transitionDuration,
         }}>
         {emoji}
       </div>
