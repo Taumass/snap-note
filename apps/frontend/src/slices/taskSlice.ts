@@ -58,6 +58,20 @@ export const selectSortedTasks = createSelector([selectRawTasks], (tasks) =>
     .sort((a, b) => a.date.getTime() - b.date.getTime())
 );
 
+export const todayTasksSelector = createSelector([selectSortedTasks], (tasks) =>
+  tasks.filter((task) => {
+    const today = new Date();
+    return task.date.toDateString() === today.toDateString();
+  })
+);
+
+export const getTaskById = (
+  taskId: number
+): ((state: RootState) => TaskData | undefined) =>
+  createSelector([selectRawTasks], (tasks) =>
+    tasks.find((task) => task.id === taskId)
+  );
+
 const taskSlice = createSlice({
   name: 'tasks',
   initialState,
@@ -83,9 +97,23 @@ const taskSlice = createSlice({
         task.repeatDays = action.payload.repeatDays;
       }
     },
+    editTask: (
+      state,
+      action: PayloadAction<{ taskId: number; updatedTask: Partial<TaskData> }>
+    ) => {
+      const taskIndex = state.tasks.findIndex(
+        (t) => t.id === action.payload.taskId
+      );
+      if (taskIndex !== -1) {
+        state.tasks[taskIndex] = {
+          ...state.tasks[taskIndex],
+          ...action.payload.updatedTask,
+        };
+      }
+    },
   },
 });
 
-export const { addTask, toggleTask, deleteTask, updateRepeatDays } =
+export const { addTask, toggleTask, deleteTask, updateRepeatDays, editTask } =
   taskSlice.actions;
 export default taskSlice.reducer;

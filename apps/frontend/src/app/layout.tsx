@@ -6,6 +6,7 @@ import './globals.css';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import NotificationContainer from '@/components/notifications/NotificationContainer';
+import AlertDialog from '@/components/notifications/AlertDialog';
 
 import ReduxProvider from '@/providers/ReduxProvider';
 
@@ -43,7 +44,10 @@ export default function RootLayout({
               <main className="w-full h-full overflow-auto">{children}</main>
             </div>
           </SidebarProvider>
+
+          {/* Manage By Redux */}
           <NotificationContainer />
+          <AlertDialog />
         </ReduxProvider>
       </body>
     </html>

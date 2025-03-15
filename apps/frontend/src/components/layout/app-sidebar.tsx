@@ -14,6 +14,7 @@ import { NavRecent } from '@/components/layout/nav-recent';
 import { NavMain } from '@/components/layout/nav-main';
 import { NavSecondary } from '@/components/layout/nav-secondary';
 import { TeamSwitcher } from '@/components/layout/team-switcher';
+import { showDialog } from '@/slices/comfirmDialogSlice';
 import {
   Sidebar,
   SidebarContent,
@@ -34,6 +35,20 @@ export function AppSidebar({
   const dispatch = useDispatch();
   const tasks: Task[] = useSelector(selectSortedTasks);
 
+  const handleDelete = (taskId: number) => {
+    dispatch(
+      showDialog({
+        title: 'Delete Note',
+        description:
+          'Are you sure you want to delete this note? This action cannot be undone.',
+        confirmLabel: 'Delete',
+        cancelLabel: 'Cancel',
+        confirmActionType: 'CUSTOM_DELETE_TASK',
+        confirmActionPayload: { id: taskId },
+      })
+    );
+  };
+
   const handleOpenDrawer = () => {
     dispatch(openDrawer());
   };
@@ -47,12 +62,12 @@ export function AppSidebar({
       },
       {
         title: 'Home',
-        url: '#',
+        url: '/',
         icon: Home,
       },
       {
         title: 'Today',
-        url: '#',
+        url: '/today',
         icon: Calendar,
       },
       {
@@ -65,9 +80,10 @@ export function AppSidebar({
       {
         title: 'Create new task',
         icon: Plus,
+        url: '#',
         onClick: handleOpenDrawer,
         className:
-          'bg-[#EDCB96] hover:bg-[#F7C4A5] text-[#4D4861] rounded-md px-4 py-2 mt-1 shadow-sm transition-colors w-full justify-center font-medium',
+          'bg-[#EDCB96] hover:bg-[#F7C4A5] text-[#4D4861] rounded-md px-4 py-2 mt-1 shadow-sm transition-colors w-full justify-center font-medium cursor-pointer',
       },
     ],
     []
@@ -89,7 +105,7 @@ export function AppSidebar({
       tasks.map((task) => ({
         id: task.id,
         title: task.taskName,
-        date: task.date.toISOString().split('T')[0],
+        url: `task/${task.id}`,
         emoji: task.emoji,
       })),
     [tasks]
@@ -109,7 +125,7 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent className="flex flex-col h-full">
         <div className="flex-1 overflow-y-auto ml-2">
-          <NavRecent items={recentTasks} />
+          <NavRecent items={recentTasks} onDelete={handleDelete} />
         </div>
         <NavSecondary items={navSecondary} className="mt-auto" />
         <div className="px-4 py-3 text-xs text-[#605770] border-t border-[#F7C4A5]/20">

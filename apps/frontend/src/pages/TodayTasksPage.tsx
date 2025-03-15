@@ -10,7 +10,7 @@ import AddTaskButton from '@/components/ui/add-task-button';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleTask, deleteTask } from '@/slices/taskSlice';
 import { addNotification } from '@/slices/notificationsSlice';
-import { selectSortedTasks } from '@/slices/taskSlice';
+import { todayTasksSelector } from '@/slices/taskSlice';
 import { openDrawer } from '@/slices/addTaskDrawerSlice';
 
 export default function Home() {
@@ -33,7 +33,7 @@ export default function Home() {
       dispatch(deleteTask(taskId));
     }, 2600);
   };
-  const tasks: Task[] = useSelector(selectSortedTasks);
+  const tasks: Task[] = useSelector(todayTasksSelector);
 
   return (
     <main className="px-8 w-full flex-1 transition-all duration-200">
@@ -43,7 +43,9 @@ export default function Home() {
             className="mb-8 pl-6 border-l-4 flex items-center justify-between"
             style={{ borderColor: '#605770' }}>
             <div>
-              <h1 className="text-3xl font-bold text-gray-800">My Tasks</h1>
+              <h1 className="text-3xl font-bold text-gray-800">
+                Your Tasks for Today
+              </h1>
               <p className="text-gray-500 mt-1">
                 {tasks.filter((t) => !t.isCompleted).length} tasks remaining
               </p>
@@ -56,7 +58,7 @@ export default function Home() {
             tasks={tasks}
             onToggleComplete={handleToggleComplete}
             handleAddTask={handleOpenDrawer}
-            noTaskText="You Have Finished All Of Your Tasks"
+            noTaskText="All your tasks for today are done!"
           />
 
           <CreateTask />

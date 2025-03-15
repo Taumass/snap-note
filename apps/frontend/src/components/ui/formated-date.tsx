@@ -9,13 +9,19 @@ import {
 import React from 'react';
 
 const FormatedDate = ({ date }: { date: Date | null }) => {
+  const [currentDate, setCurrentDate] = React.useState<Date | null>(null);
+
+  React.useEffect(() => {
+    setCurrentDate(new Date());
+  }, []);
+
   const getFormattedDate = (date: Date | null) => {
     if (!date) return 'Pick a date';
+    if (!currentDate) return '';
+
     if (isToday(date)) return 'Today';
     if (isTomorrow(date)) return 'Tomorrow';
     if (isYesterday(date)) return 'Yesterday';
-
-    const currentDate = new Date();
 
     if (isSameWeek(date, currentDate)) {
       const dayDifference = differenceInCalendarDays(date, currentDate);

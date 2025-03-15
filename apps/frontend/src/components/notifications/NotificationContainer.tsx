@@ -24,7 +24,7 @@ export default function NotificationContainer() {
     const timers = notifications.map((notif) =>
       setTimeout(() => {
         dispatch(removeNotification(notif.id));
-      }, 5000)
+      }, 3000)
     );
 
     return () => {

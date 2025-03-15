@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import CheckBox from './CheckBox';
 import FormatedDate from '../ui/formated-date';
 import useSound from 'use-sound';
+import Link from 'next/link';
 
 import type { Task } from '@snap-note/types';
+import { useRouter } from 'next/navigation';
 
 type TaskItemProps = Omit<Task, 'repeatDays'> & {
   onToggleComplete: () => void;
@@ -22,7 +26,15 @@ const TaskItem = ({
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isInAnimation, setIsInAnimation] = useState(true);
   const [isAppearing, setIsAppearing] = useState(false);
-  const [transitionDuration, setTransitionDuration] = useState('1s');
+  const [transitionDuration, setTransitionDuration] = useState('0.5s');
+  const [isHovered, setIsHovered] = useState(false);
+
+  const router = useRouter();
+  const itemLink = `task/${id}`;
+
+  const redirectToItem = () => {
+    router.push(itemLink);
+  };
 
   const [play] = useSound('/sounds/task-completed.mp3', {
     volume: 0.5,
@@ -59,7 +71,9 @@ const TaskItem = ({
         backgroundColor: 'white',
         border: `2px solid #EDCB96`,
         transitionDuration,
-      }}>
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}>
       <CheckBox
         key={id}
         onToggleComplete={handleCheck}
@@ -70,18 +84,20 @@ const TaskItem = ({
         className={`flex-grow transition-all ${isFadingOut ? 'px-0' : 'px-4'}`}
         style={{ transitionDuration }}>
         <div
-          className={`font-semibold text-2xl transition-colors ${
+          className={`font-semibold text-2xl transition-colors cursor-pointer hover:underline ${
             isCompleted ? 'line-through text-gray-500' : 'text-gray-900'
           }`}
-          style={{ color: isCompleted ? '#9E7682' : '#4D4861' }}>
+          style={{ color: isCompleted ? '#9E7682' : '#4D4861' }}
+          onClick={redirectToItem}>
           {taskName}
         </div>
 
         <div
-          className={`flex items-center text-sm space-x-6 transition-all ${
+          className={`flex items-center text-sm space-x-6 transition-all cursor-pointer ${
             isFadingOut ? '-mt-3' : 'mt-3'
           }`}
-          style={{ transitionDuration }}>
+          style={{ transitionDuration }}
+          onClick={redirectToItem}>
           <div
             className={`flex items-center rounded-full bg-[#F7C4A5]/20 shadow-sm border border-[#F7C4A5]/40 transition-all ${
               isFadingOut ? 'px-0 py-0' : 'px-4 py-2'
@@ -106,10 +122,11 @@ const TaskItem = ({
 
           {isRepeating && (
             <div
-              className={`flex items-center rounded-full bg-[#EDCB96]/30 shadow-sm border border-[#EDCB96]/40 transition-all ${
+              className={`flex items-center rounded-full bg-[#EDCB96]/30 shadow-sm border border-[#EDCB96]/40 transition-all cursor-pointer ${
                 isFadingOut ? 'px-0 py-0' : 'px-4 py-2'
               }`}
-              style={{ transitionDuration }}>
+              style={{ transitionDuration }}
+              onClick={redirectToItem}>
               <svg
                 className="w-5 h-5 mr-2 text-gray-700"
                 fill="none"
@@ -129,8 +146,32 @@ const TaskItem = ({
       </div>
 
       <div
+        className={`flex items-center transition-opacity duration-300 ${
+          isHovered && !isFadingOut ? 'opacity-100' : 'opacity-0'
+        }`}>
+        <Link href={`/task/${id}`}>
+          <button
+            className="flex items-center justify-center bg-[#9E7682]/10 hover:bg-[#9E7682]/20 rounded-full p-2 mr-4 transition-all cursor-pointer hover:scale-110"
+            aria-label="Éditer la tâche">
+            <svg
+              className="w-5 h-5 text-[#4D4861]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+            </svg>
+          </button>
+        </Link>
+      </div>
+
+      <div
         className={`flex-shrink-0 text-4xl rounded-full shadow-md bg-[#9E7682]/20 border border-[#9E7682]/10 transition-all hover:scale-110 ${
-          isFadingOut ? 'ml-0 p-0' : 'ml-6 p-4'
+          isFadingOut ? 'ml-0 p-0' : 'p-4'
         }`}
         style={{
           boxShadow:

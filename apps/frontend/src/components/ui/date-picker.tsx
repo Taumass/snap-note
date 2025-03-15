@@ -1,14 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import {
-  format,
-  isToday,
-  isTomorrow,
-  isYesterday,
-  isSameWeek,
-  differenceInCalendarDays,
-} from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -27,27 +19,6 @@ interface DatePickerProps {
 }
 
 export function DatePicker({ date, setDate }: DatePickerProps) {
-  const getFormattedDate = (date: Date | null) => {
-    if (!date) return 'Pick a date';
-    if (isToday(date)) return 'Today';
-    if (isTomorrow(date)) return 'Tomorrow';
-    if (isYesterday(date)) return 'Yesterday';
-
-    const currentDate = new Date();
-
-    if (isSameWeek(date, currentDate)) {
-      const dayDifference = differenceInCalendarDays(date, currentDate);
-
-      if (dayDifference < 0) {
-        return `Last ${format(date, 'EEEE')}`;
-      } else {
-        return `${format(date, 'EEEE')}`;
-      }
-    }
-
-    return format(date, 'PPP');
-  };
-
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -67,7 +38,9 @@ export function DatePicker({ date, setDate }: DatePickerProps) {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={(day) => day && setDate(day)}
+          onSelect={(day) => {
+            day && setDate(day);
+          }}
           initialFocus
           className="text-[#4D4861]"
         />

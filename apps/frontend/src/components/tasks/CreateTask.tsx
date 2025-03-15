@@ -39,6 +39,16 @@ export default function DrawerDemo() {
   const [recurrence, setRecurrence] = React.useState<string>('');
   const [repeatDays, setRepeatDays] = React.useState<Set<number>>(new Set());
 
+  const resetFields = () => {
+    setEmoji('📝');
+    setTitle('');
+    setDate(new Date());
+    setIsRepeating(false);
+    setRecurrence('');
+    setRepeatDays(new Set());
+    setTitleError(false);
+  };
+
   const handleSubmit = () => {
     if (!title.trim()) {
       setTitleError(true);
@@ -84,6 +94,7 @@ export default function DrawerDemo() {
       })
     );
 
+    resetFields();
     dispatch(closeDrawer());
   };
   return (
@@ -91,13 +102,7 @@ export default function DrawerDemo() {
       open={isOpen}
       onOpenChange={(state) => {
         dispatch(setDrawerState(state));
-        setEmoji('📝');
-        setTitle('');
-        setDate(new Date());
-        setIsRepeating(false);
-        setRecurrence('');
-        setRepeatDays(new Set());
-        setTitleError(false);
+        resetFields();
       }}>
       <DrawerContent className="bg-[#FFFFFC] text-[#4D4861] rounded-t-2xl shadow-lg">
         <div className="flex flex-col items-center justify-center mx-auto w-full max-w-sm text-center">
